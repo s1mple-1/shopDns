@@ -14,25 +14,21 @@ public class InitWebDriver {
     static void initWebDriver() {
         Properties properties = TestProperties.getInstance().getProperties();
 
-        String browser = properties.getProperty("browser", "opera");
+        String browser = properties.getProperty("browser", "chrome");
 
         switch (browser) {
             case "chrome":
-                System.setProperty("webdriver.chrome.driver", "webdrivers/chromedriver.exe");
+                System.setProperty("webdriver.chrome.driver", properties.getProperty("webdriver", "webdrivers/chromedriver.exe"));
                 webDriver = new ChromeDriver();
                 break;
             case "opera":
-                System.setProperty("webdriver.opera.driver", "webdrivers/operadriver.exe");
+                System.setProperty("webdriver.opera.driver", properties.getProperty("webdriver"));
                 webDriver = new OperaDriver();
-                break;
-            case "firefox":
-                System.setProperty("webdriver.gecko.driver", "webdrivers/geckodriver.exe");
-                webDriver = new FirefoxDriver();
                 break;
         }
         webDriver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
         webDriver.manage().window().maximize();
-        webDriver.get("https://www.dns-shop.ru");
+        webDriver.get(properties.getProperty("url", "https://www.dns-shop.ru"));//можно было сюда проперти вызвать
     }
 
     static void quitWebDriver() {
