@@ -11,11 +11,9 @@ class BaseDnsTest {
     }
 
     @AfterEach
-    void quitTest(){
+    void quitTest() {
         InitWebDriver.quitWebDriver();
-
     }
-
 
 
 }

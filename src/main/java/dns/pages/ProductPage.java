@@ -33,12 +33,11 @@ public class ProductPage extends BasePage {
 
     public void chooseWarranty(int year) {
         if (year == 1 || year == 2) {
-            waitElementToClick(warranty).sendKeys(String.valueOf(year));;
+            waitElementToClick(warranty).sendKeys(String.valueOf(year));
+            ;
             warranty.sendKeys(Keys.ENTER);
         } else {
-            System.out.println("Вы вызвали метод с неверным параметром");
+            System.out.println("Вы вызвали метод с неверным параметром. Гарантия не будет добавлена к товару");
         }
     }
-
-
 }

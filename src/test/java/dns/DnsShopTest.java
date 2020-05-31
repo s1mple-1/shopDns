@@ -6,7 +6,7 @@ import dns.pages.ResultsPage;
 import dns.pages.SearchBar;
 import org.junit.jupiter.api.Test;
 
-public class DnsShopTest extends BaseDnsTest{
+public class DnsShopTest extends BaseDnsTest {
 
     @Test
     void dnsShopTest() throws InterruptedException {
@@ -24,7 +24,7 @@ public class DnsShopTest extends BaseDnsTest{
         searchBar.search("Detroit");
         productPage.addProductToBasket();
         //11
-        System.out.println(productPage.getTotalPrice());
+//        Assertions.assertEquals(productPage.getTotalBasketPrice(), );
         //12
         new BasePage().goToBasket();
         //13

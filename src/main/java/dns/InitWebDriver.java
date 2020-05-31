@@ -5,13 +5,16 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.opera.OperaDriver;
 
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 public class InitWebDriver {
     private static WebDriver webDriver;
 
     static void initWebDriver() {
-        String browser = System.getProperty("browser", "chrome");
+        Properties properties = TestProperties.getInstance().getProperties();
+
+        String browser = properties.getProperty("browser", "opera");
 
         switch (browser) {
             case "chrome":

@@ -6,11 +6,11 @@ public class Product {
     boolean warranty;
     private long totalPrice;
 
-    public Product(String name, long price, boolean warrainty, long totalPrice) {
+    public Product(String name, long price, boolean warranty, long totalPrice) {
         this.name = name;
         this.price = price;
-        this.warranty = warrainty;
-
+        this.warranty = warranty;
+        this.totalPrice = totalPrice;
     }
 
     public String getName() {
