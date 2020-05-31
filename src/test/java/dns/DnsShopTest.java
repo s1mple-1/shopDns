@@ -18,7 +18,6 @@ public class DnsShopTest extends BaseDnsTest {
     @ParameterizedTest
     @MethodSource("streamProduct")
     void dnsShopTest(String nameShort, String nameFull, String game) {
-        System.out.println(nameFull + nameShort + game);
         //2. в поиске найти playstation
         SearchBar searchBar = new SearchBar();
         searchBar.search(nameShort);

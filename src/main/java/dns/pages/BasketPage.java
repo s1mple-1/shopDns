@@ -26,7 +26,6 @@ public class BasketPage extends BasePage {
         String price = "//div[@data-cart-product-id][%d]//span[@class='price__current']";
         int count = 1;
         for (Product product : BasketData.getBasketData()) {
-            System.out.println(product.getName());
             String stringPrice = webDriver.findElement(By.xpath(String.format(price, count))).getText().replaceAll(" ", "");
             long expected = product.getPrice();
             long actual = Long.parseLong(stringPrice);
