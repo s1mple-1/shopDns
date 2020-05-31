@@ -16,7 +16,6 @@ public class ProductPage extends BasePage {
     @FindBy(xpath = "//span[@class='current-price-value']")
     WebElement productPrice;
 
-
     public void addProductToBasket() {
         String name = waitElementToClick(productName).getText();
         long price = Long.parseLong(productPrice.getAttribute("data-price-value"));

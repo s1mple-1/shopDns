@@ -13,7 +13,7 @@ class BaseDnsTest {
     @AfterEach
     void quitTest() {
         InitWebDriver.quitWebDriver();
+        BasketData.getBasketData().clear();
     }
-
 
 }

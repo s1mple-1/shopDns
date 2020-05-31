@@ -2,19 +2,30 @@ package dns;
 
 import dns.pages.*;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.List;
 
 public class DnsShopTest extends BaseDnsTest {
+    private static List<String[]> streamProduct() {
+        return List.of(
+                new String[]{"playstation", "PlayStation 4 Slim Black", "Detroit"},
+                new String[]{"xbox", "Microsoft Xbox ONE X Black", "FIFA 17 (Xbox ONE)"});
+    }
 
-    @Test
-    void dnsShopTest() throws InterruptedException {
+
+    @ParameterizedTest
+    @MethodSource("streamProduct")
+    void dnsShopTest(String nameShort, String nameFull, String game) {
+        System.out.println(nameFull + nameShort + game);
         //2. в поиске найти playstation
         SearchBar searchBar = new SearchBar();
-        searchBar.search("playstation");
+        searchBar.search(nameShort);
 
         //3. кликнуть по playstation 4 slim black
         ResultsPage resultsPage = new ResultsPage();
-        resultsPage.chooseByProductName("PlayStation 4 Slim Black");
+        resultsPage.chooseByProductName(nameFull);
         ProductPage productPage = new ProductPage();
 
         /*4. запомнить цену
@@ -24,8 +35,9 @@ public class DnsShopTest extends BaseDnsTest {
         /*6. выполнить поиск Detroit
           7. запомнить цену
           8. нажать купить*/
-        searchBar.search("Detroit");
+        searchBar.search(game);
         productPage.addProductToBasket();
+
 
         //9. перейти в корзину
         BasePage basePage = new BasePage();
@@ -46,25 +58,25 @@ public class DnsShopTest extends BaseDnsTest {
         long totalPriceWithWarranty = basePage.getTotalBasketPrice();
 
         //13. удалить из корзины Detroit
-        Product deleteProduct = basketPage.deleteFromBasket("Detroit");
+        Product deleteProduct = basketPage.deleteFromBasket(game);
         basePage.waitElementRefreshing(totalPriceWithWarranty);
 
         //14. проверить что Detroit нет больше в корзине и что сумма уменьшилась на цену Detroit
+        Assertions.assertTrue(basketPage.checkProductDelete(game), "Продукт не удален");
         long actualPrice = basketPage.getTotalBasketPrice();
         long expectedPrice = totalPriceWithWarranty - deleteProduct.getPrice();
         Assertions.assertEquals(expectedPrice, actualPrice, String.format("Ожидаемая стоимость корзины: %d. Фактическая: %d", expectedPrice, actualPrice));
-        Assertions.assertFalse();
 
         //15. добавить еще 2 playstation (кнопкой +) и проверить что сумма верна (равна 3*(цена playstation+гарантия))
-        basketPage.addMoreProduct("PlayStation", 2, actualPrice);
+        basketPage.addMoreProduct(nameFull, 2, actualPrice);
         basePage.waitElementRefreshing(actualPrice);
-        expectedPrice = actualPrice*3L;
+        expectedPrice = actualPrice * 3L;
         actualPrice = basePage.getTotalBasketPrice();
         Assertions.assertEquals(expectedPrice, actualPrice,
                 String.format("Ожидаемая стоимость корзины: %d. Фактическая: %d", expectedPrice, actualPrice));
 
         //16. удалить (кнопка "удалить") Playstation из корзины
-        Product rollbackProduct = basketPage.deleteFromBasket("PlayStation");
+        Product rollbackProduct = basketPage.deleteFromBasket(nameFull);
         //17. нажать вернуть удаленный товаров
         basketPage.rollbackDelete(rollbackProduct);
         //18. проверить что 3 playstation снова в корзине и выбрана гарантия 24 месяца

@@ -7,8 +7,11 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class BasketPage extends BasePage {
-    @FindBy(xpath = "//*[@data-cart-product-id]")
+    @FindBy(xpath = "//*[@data-cart-product-id][1]")
     public static WebElement checkProductAfterRollback;
+
+    @FindBy(xpath = "//*[@data-cart-product-id][2]")
+    public static WebElement checkAfterDeleteSecondProduct;
 
     @FindBy(xpath = "//span[@class='base-ui-radio-button__icon base-ui-radio-button__icon_checked' and contains(text(), '24  мес')]")
     public static WebElement checkWarrantyAfterRollback;
@@ -23,6 +26,7 @@ public class BasketPage extends BasePage {
         String price = "//div[@data-cart-product-id][%d]//span[@class='price__current']";
         int count = 1;
         for (Product product : BasketData.getBasketData()) {
+            System.out.println(product.getName());
             String stringPrice = webDriver.findElement(By.xpath(String.format(price, count))).getText().replaceAll(" ", "");
             long expected = product.getPrice();
             long actual = Long.parseLong(stringPrice);
@@ -57,7 +61,7 @@ public class BasketPage extends BasePage {
                 waitElementToClick(String.format(plusButton, index + 1)).click();
                 waitElementRefreshing(oldPrice);
                 oldPrice = getTotalBasketPrice();
-                product.setCount(product.getCount()+1);
+                product.setCount(product.getCount() + 1);
             }
         }
     }
@@ -84,5 +88,10 @@ public class BasketPage extends BasePage {
         String count = "//div[@data-cart-product-id][1]//input[@class='count-buttons__input']";
         BasketData.getBasketData().indexOf(product);
         return Integer.parseInt(waitElementToClick(count).getAttribute("value"));
+    }
+
+    public boolean checkProductDelete(String name) {
+        String xPath = "//a[contains(text(), '%s')]";
+        return webDriver.findElements(By.xpath(String.format(xPath, name))).isEmpty();
     }
 }
