@@ -10,13 +10,10 @@ public class ProductPage extends BasePage {
     @FindBy(xpath = "//label['Купить']")
     WebElement buyButton;
 
-//    @FindBy(id = "product-page")
-//    WebElement productPage;
-
     @FindBy(tagName = "h1")
     WebElement productName;
 
-    @FindBy(xpath = "//span[contains(@class, 'current-price-value')]")
+    @FindBy(xpath = "//span[@class='current-price-value']")
     WebElement productPrice;
 
 
@@ -25,6 +22,6 @@ public class ProductPage extends BasePage {
         long price = Long.parseLong(productPrice.getAttribute("data-price-value"));
         Product product = new Product(name, price);
         BasketData.getBasketData().add(product);
-        buyButton.click();
+        waitElementToClick(buyButton).click();
     }
 }

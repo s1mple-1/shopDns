@@ -13,7 +13,7 @@ public class BasketData extends BasePage {
     public static ArrayList<Product> getBasketData() {
         if (productList == null) {
             productList = new ArrayList<>();
-            return productList;
-        } else return productList;
+        }
+        return productList;
     }
 }

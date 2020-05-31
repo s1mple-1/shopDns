@@ -1,6 +1,9 @@
 package dns.pages;
 
+import dns.BasketData;
 import dns.InitWebDriver;
+import dns.Product;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -30,14 +33,15 @@ public class BasePage {
         return webDriverWait.until(ExpectedConditions.elementToBeClickable(webElement));
     }
 
+    public WebElement waitElementToClick(String xPath) {
+        return webDriverWait.until(ExpectedConditions.elementToBeClickable(By.xpath(xPath)));
+    }
+
     public void waitElementRefreshing(long oldBasketPrice) {
         WebDriverWait webDriverWait = new WebDriverWait(webDriver, 10);
-        webDriverWait.until(new Function<WebDriver, Boolean>() {
-            @Override
-            public Boolean apply(WebDriver webDriver) {
-                long totalPrice = getTotalBasketPrice();
-                return totalPrice != oldBasketPrice;
-            }
+        webDriverWait.until(webDriver -> {
+            long totalPrice = getTotalBasketPrice();
+            return totalPrice != oldBasketPrice;
         });
     }
 
@@ -47,5 +51,13 @@ public class BasePage {
 
     public long getTotalBasketPrice() {
         return Long.parseLong(waitElementToClick(totalPrice).getText().replaceAll(" ", ""));
+    }
+
+    public long getVirtualBasketPrice() {
+        long expected = 0L;
+        for (Product product : BasketData.getBasketData()) {
+            expected += product.getPrice();
+        }
+        return expected;
     }
 }
