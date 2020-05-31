@@ -3,14 +3,11 @@ package dns;
 public class Product {
     private String name;
     private long price;
-    boolean warranty;
-    private long totalPrice;
 
-    public Product(String name, long price, boolean warranty, long totalPrice) {
+
+    public Product(String name, long price) {
         this.name = name;
         this.price = price;
-        this.warranty = warranty;
-        this.totalPrice = totalPrice;
     }
 
     public String getName() {

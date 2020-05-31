@@ -16,7 +16,6 @@ public class TestProperties {
             properties.load(new FileInputStream(new File("src/test/resources/" +
                     System.getProperty("environment") + ".properties")));
         } catch (IOException e) {
-            System.out.println("файл properties не найден");
             e.printStackTrace();
         }
     }

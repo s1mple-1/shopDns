@@ -6,8 +6,6 @@ import java.util.ArrayList;
 
 public class BasketData extends BasePage {
     private static ArrayList<Product> productList;
-    private long totalPrice;
-
 
     private BasketData() {
     }
